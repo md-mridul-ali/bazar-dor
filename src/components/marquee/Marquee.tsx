@@ -1,0 +1,56 @@
+import react from "react";
+import Link from "next/link";
+import { IProduct } from "@/types/productsTypes";
+import MarqueeText from "react-marquee-text";
+import "react-marquee-text/dist/styles.css";
+
+
+const getProducts = async () => {
+    const res = await fetch('https://api.abcz.workers.dev/api/bazardor/products');
+    if(!res.ok) {
+        throw new Error('Failed to fetch products');
+    }
+    return res.json();
+}
+
+const Marquee = async() => {
+
+    const products = await getProducts();
+    console.log(products);
+
+    return (
+      <div className="border-t-2 border-b-2 mt-3 mb-5 border-neutral-100 bg-green-100">
+
+            <div className="flex max-w-7xl mx-auto">
+                {/* <div className="bg-red-800 py-1 px-5 font-bold">সর্বশেষ</div> */}
+
+            <MarqueeText className="py-1" direction="right" duration={10}>
+            
+            {products.map((product: IProduct) => <Link href={`/products/${product.id}`} key={product.id} className="hover:underline">
+
+                  <span>
+             {" "}
+             <span>{product.image}</span>
+             <span key={product.id}> {product.nameBn} </span>
+             <span>{product.today} টাকা/কেজি</span>
+             {
+                product.change.dir === "low" ? (
+                    <span className="text-green-600">5</span>
+                ) : (
+                    <span className="text-red-600">5</span>
+                )
+             }
+             <span className="mx-5">•</span>{" "}
+           </span>
+             
+            </Link>
+           
+         )}
+
+            </MarqueeText>
+            </div>
+        </div>
+    );
+};
+
+export default Marquee;

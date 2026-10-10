@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
+import Marquee from "@/components/marquee/Marquee";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <Navbar></Navbar>
-        <main>
+        <Marquee></Marquee>
+        <main className="max-width-7xl mx-auto">
           {children}
         </main>
       </body>

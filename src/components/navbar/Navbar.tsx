@@ -1,7 +1,9 @@
 "use client";
+import { ICategory } from "@/types/categoryTypes";
 import logo from "../../assets/logo-icon.png";
 import Image from "next/image";
 import Link from "next/link";
+
 
 const getCategories = async () => {
   const res = await fetch(
@@ -47,7 +49,7 @@ const Navbar = async () => {
               tabIndex={-1}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              {categories.map((category: any) => (
+              {categories.map((category: ICategory) => (
                 <li key={category.id}>
                   <Link href={`/categories/${category.id}`}>
                     <span>{category.icon}</span>
@@ -63,13 +65,15 @@ const Navbar = async () => {
             </div>
             <div>
               <p className=" text-xl">বাজার দর</p>
-              <p className="text-xs text-neutral-500">{date}</p>
+              
+                <p className="text-xs text-neutral-500">{date}</p>
+             
             </div>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            {categories.map((category: any) => (
+            {categories.map((category: ICategory) => (
               <li key={category.id}>
                 <Link href={`/categories/${category.id}`}>
                   <span>{category.icon}</span>
