@@ -4,6 +4,7 @@ import { Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Marquee from "@/components/marquee/Marquee";
+import Footer from "@/components/footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="max-width-7xl mx-auto">
           {children}
         </main>
+        <Footer></Footer>
       </body>
     </html>
   );
