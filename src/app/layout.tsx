@@ -34,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <Navbar></Navbar>
         <Marquee></Marquee>
-        <main className="max-width-7xl mx-auto">
+        <main className="">
           {children}
         </main>
         <Footer></Footer>

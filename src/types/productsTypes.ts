@@ -13,5 +13,6 @@ export interface IProduct {
   lastMonth: number;
   change:{
     dir: string;
+    pct: number;
   };
 }

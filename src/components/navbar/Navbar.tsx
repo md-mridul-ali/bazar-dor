@@ -1,4 +1,3 @@
-"use client";
 import { ICategory } from "@/types/categoryTypes";
 import logo from "../../assets/logo-icon.png";
 import Image from "next/image";
@@ -7,7 +6,7 @@ import Link from "next/link";
 
 const getCategories = async () => {
   const res = await fetch(
-    "https://api.abcz.workers.dev/api/bazardor/categories",
+    "https://openapi.programming-hero.com/api/bazardor/categories",
   );
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
@@ -16,10 +15,10 @@ const getCategories = async () => {
 };
 
 const Navbar = async () => {
-  const date = new Date().toLocaleDateString("bn-BD", {
-    dateStyle: "full",
-  });
 
+  const date = new Date().toLocaleDateString("bn-Bd", {
+    dateStyle: "full",
+  })
   const categories = await getCategories();
 
   return (
@@ -67,6 +66,8 @@ const Navbar = async () => {
               <p className=" text-xl">বাজার দর</p>
               
                 <p className="text-xs text-neutral-500">{date}</p>
+                {/* <Date></Date> */}
+
              
             </div>
           </Link>

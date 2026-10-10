@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="">
-      <footer className="footer sm:footer-horizontal  bg-base-200 items-center px-8 py-4 mt-10">
+      <footer className="footer sm:footer-horizontal  bg-base-300 items-center px-8 py-4 mt-10">
         <aside className="grid-flow-col items-center">
           <p>বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।</p>
         </aside>

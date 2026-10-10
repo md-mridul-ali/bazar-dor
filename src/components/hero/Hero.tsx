@@ -4,13 +4,12 @@ import hero from "../../assets/bazar-hero.png";
 import Link from "next/link";
 
 const Hero = () => {
-  const date = new Date().toLocaleDateString("bn-BD", {
+   const date = new Date().toLocaleDateString("bn-Bd", {
     dateStyle: "full",
-  });
-
+  })
   return (
-    <div>
-      <div className="hero border-2 border-gray-200 rounded-2xl">
+ 
+      <div className="hero max-w-7xl mx-auto border-2 border-gray-300 rounded-2xl">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <Image src={hero} alt="Hero Image" width={400} height={400} />
           <div>
@@ -26,7 +25,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </div>
+  
   );
 };
 
