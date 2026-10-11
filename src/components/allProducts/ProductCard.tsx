@@ -1,12 +1,12 @@
 import { IProduct } from "@/types/productsTypes";
-import React from "react";
+
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   const data = product;
   const { nameBn, today, image } = product;
 
   return (
-    <div className="border-2 border-gray-200 rounded-2xl p-4">
+    <div className="border-2 border-gray-200 rounded-2xl p-4 hover:border-gray-400">
       <div className="flex  items-center gap-2 ">
         <p className="px-3 py-3 bg-gray-300 rounded-xl">{image}</p>
         <div>

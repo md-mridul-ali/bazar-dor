@@ -1,4 +1,4 @@
-import react from "react";
+
 import Link from "next/link";
 import { IProduct } from "@/types/productsTypes";
 import MarqueeText from "react-marquee-text";

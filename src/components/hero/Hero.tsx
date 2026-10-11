@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 import hero from "../../assets/bazar-hero.png";
 import Link from "next/link";
 

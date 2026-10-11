@@ -50,12 +50,13 @@ const Navbar = async () => {
             >
               {categories.map((category: ICategory) => (
                 <li key={category.id}>
-                  <Link href={`/categories/${category.id}`}>
+                  <Link href={`/categories/${category.category}`}>
                     <span>{category.icon}</span>
                     {category.nameBn}
                   </Link>
                 </li>
               ))}
+             
             </ul>
           </div>
           <Link className="flex items-center gap-2" href="/">
@@ -82,6 +83,7 @@ const Navbar = async () => {
                 </Link>
               </li>
             ))}
+           
           </ul>
         </div>
         <div className="navbar-end gap-2">
