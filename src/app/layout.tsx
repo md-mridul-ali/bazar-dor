@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Marquee from "@/components/marquee/Marquee";
 import Footer from "@/components/footer/Footer";
+import Navlink from "@/components/navbar/Navlink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${notoSerifBengali.className} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar></Navbar>
+        {/* <Navbar></Navbar> */}
+        <Navlink></Navlink>
         <Marquee></Marquee>
         <main className="">
           {children}

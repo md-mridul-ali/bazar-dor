@@ -3,5 +3,5 @@ export interface ICategory {
   slug: string;
   nameBn: string;
   icon: string;
-  category:string;
+  // category:string;
 }
