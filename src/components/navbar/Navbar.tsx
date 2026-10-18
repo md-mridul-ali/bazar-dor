@@ -111,6 +111,7 @@ import logo from "../../assets/logo-icon.png";
 import Image from "next/image";
 import Link from "next/link";
 import DatePage from "./DatePage";
+// import { Suspense } from "react";
 // import { usePathname } from "next/navigation";
 
 const Navbar = ({ categories }: { categories: ICategory[] }) => {
@@ -166,7 +167,7 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             <div>
               <p className="text-xl">বাজার দর</p>
               <div className="text-xs text-neutral-500">
-                <DatePage />
+                  <DatePage />
               </div>
             </div>
           </Link>

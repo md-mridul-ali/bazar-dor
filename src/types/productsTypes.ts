@@ -11,8 +11,9 @@ export interface IProduct {
   yesterday: number;
   lastWeek: number;
   lastMonth: number;
-  change:{
+  change: {
     dir: string;
     pct: number;
   };
+  markets: {market: string, division: string, min: number, max: number}[];
 }

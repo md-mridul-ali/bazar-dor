@@ -5,9 +5,7 @@ import DatePage from "../navbar/DatePage";
 
 
 const Hero = () => {
-  //  const date = new Date().toLocaleDateString("bn-Bd", {
-  //   dateStyle: "full",
-  // })
+
   return (
  
       <div className="hero max-w-7xl mx-auto border-2 border-gray-300 rounded-2xl">

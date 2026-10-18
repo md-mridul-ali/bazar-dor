@@ -63,7 +63,7 @@
 import { ICategory } from "@/types/categoryTypes";
 import Navbar from "./Navbar";
 
-const getCategories = async (): Promise<ICategory[]> => {
+const getCategories = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/bazardor/categories"
   );
@@ -74,7 +74,7 @@ const getCategories = async (): Promise<ICategory[]> => {
 
   const response = await res.json();
 
-  console.log("API response:", response);
+  // console.log("API response:", response);
 
   return Array.isArray(response)
     ? response
