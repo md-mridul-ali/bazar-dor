@@ -1,4 +1,5 @@
-import ProductCard from "@/components/allProducts/ProductCard";
+
+import CategoryProductList from "@/components/allProducts/CategoryProductList";
 import { IProduct } from "@/types/productsTypes";
 
 interface ICategoryDetails {
@@ -9,35 +10,39 @@ const CategoryWisePage = async ({ params }: ICategoryDetails) => {
   const { category } = await params;
 
   const res = await fetch(
-    `https://openapi.programming-hero.com/api/bazardor/products?category=${category}`,
+    `https://openapi.programming-hero.com/api/bazardor/products?category=${category}`
   );
+
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
-  const categoriesData = await res.json();
- 
+
+  const categoriesData: IProduct[] = await res.json();
 
   return (
-    <div className="max-w-7xl mx-auto">
-        <div className="py-8 w-full border-2 border-gray-200 rounded-xl flex gap-2 justify-start items-center px-4">
-          <div className="h-12 w-12 rounded-xl bg-gray-200 flex justify-center items-center">
-            {
-              categoriesData[0]?.image
-            }
-          </div>
-           <div>
-            <h2 className="text-xl font-bold">{categoriesData[0]?.categoryNameBn}</h2>
-            <p className="text-gray-400">{categoriesData.length}টি পণ্যের আজকের দাম ও পরিবর্তন</p>
-           </div>
+    <main className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
+      {/* Category Header */}
+      <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-5 sm:py-6">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-2xl">
+          {categoriesData[0]?.categoryIcon ?? "🛒"}
         </div>
-        <p className="text-gray-400 py-3">মোট {categoriesData.length}টি পণ্য দেখানো হচ্ছে</p>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {categoriesData.map((product: IProduct) => (
-          <ProductCard key={product.id} product={product}></ProductCard>
-        ))}
+
+        <div>
+          <h2 className="text-xl font-bold">
+            {categoriesData[0]?.categoryNameBn ?? "পণ্য"}
+          </h2>
+
+          <p className="text-sm text-gray-500">
+            {categoriesData.length}টি পণ্যের আজকের দাম ও পরিবর্তন
+          </p>
+        </div>
       </div>
-    </div>
+
+      {/* Sorting and Product Grid */}
+      <CategoryProductList products={categoriesData} />
+    </main>
   );
 };
 
 export default CategoryWisePage;
+

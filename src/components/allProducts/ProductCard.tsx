@@ -8,7 +8,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
 
   return (
    <Link href={`/products/${product.id}`}>
-       <div className="border-2 border-gray-200 rounded-2xl p-4 hover:border-gray-400">
+       <div className="border-2 border-gray-200 rounded-2xl p-4 hover:border-green-300 hover:bg-green-50">
       <div className="flex  items-center gap-2 ">
         <p className="px-3 py-3 bg-gray-300 rounded-xl">{image}</p>
         <div>
