@@ -1,12 +1,16 @@
-
 import CategoryProductList from "@/components/allProducts/CategoryProductList";
 import { IProduct } from "@/types/productsTypes";
+import { cacheLife } from "next/cache";
 
 interface ICategoryDetails {
   params: Promise<{ category: string }>;
 }
 
 const CategoryWisePage = async ({ params }: ICategoryDetails) => {
+
+  "use cache";
+  cacheLife("hours");
+
   const { category } = await params;
 
   const res = await fetch(
@@ -39,7 +43,7 @@ const CategoryWisePage = async ({ params }: ICategoryDetails) => {
       </div>
 
       {/* Sorting and Product Grid */}
-      <CategoryProductList products={categoriesData} />
+       <CategoryProductList products={categoriesData} />
     </main>
   );
 };

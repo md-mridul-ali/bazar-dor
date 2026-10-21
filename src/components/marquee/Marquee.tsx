@@ -1,11 +1,15 @@
-
 import Link from "next/link";
 import { IProduct } from "@/types/productsTypes";
 import MarqueeText from "react-marquee-text";
 import "react-marquee-text/dist/styles.css";
+import { cacheLife } from "next/cache";
 
 
 const getProducts = async () => {
+
+     "use cache";
+  cacheLife("hours");
+
     const res = await fetch('https://openapi.programming-hero.com/api/bazardor/products');
     if(!res.ok) {
         throw new Error('Failed to fetch products');
@@ -16,7 +20,6 @@ const getProducts = async () => {
 const Marquee = async() => {
 
     const products = await getProducts();
-    // console.log(products);
 
     return (
       <div className="border-t-2 border-b-2 mt-3 mb-5 border-neutral-100 bg-green-100">

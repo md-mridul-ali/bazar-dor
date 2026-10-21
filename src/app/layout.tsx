@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar/Navbar";
 import Marquee from "@/components/marquee/Marquee";
 import Footer from "@/components/footer/Footer";
 import Navlink from "@/components/navbar/Navlink";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,13 +33,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${notoSerifBengali.className} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {/* <Navbar></Navbar> */}
         <Navlink></Navlink>
         <Marquee></Marquee>
         <main className="">
           {children}
         </main>
         <Footer></Footer>
+        <Toaster></Toaster>
       </body>
     </html>
   );

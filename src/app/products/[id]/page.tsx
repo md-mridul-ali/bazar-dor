@@ -1,11 +1,14 @@
 import DetailsPage from "@/components/detailsPage/DetailsPage";
-import { IProduct } from "@/types/productsTypes";
+import { cacheLife } from "next/cache"
 
 interface IProductDetails{
     params: Promise<{ id: number }>;
 }
 
 const ProductDetailsPage = async({params} : IProductDetails) => {
+
+    "use cache";
+    cacheLife("hours");
 
     const {id} = await params;
 
