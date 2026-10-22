@@ -1,5 +1,6 @@
 import DetailsPage from "@/components/detailsPage/DetailsPage";
 import { cacheLife } from "next/cache"
+import { notFound } from "next/navigation";
 
 interface IProductDetails{
     params: Promise<{ id: number }>;
@@ -13,10 +14,15 @@ const ProductDetailsPage = async({params} : IProductDetails) => {
     const {id} = await params;
 
     const res = await fetch(`https://openapi.programming-hero.com/api/bazardor/products/${id}`);
-    if(!res.ok){
-        throw new Error("Failed to Fetch the Data");
-    }
+    // if(!res.ok){
+    //     throw new Error("Failed to Fetch the Data");
+    // }
     const product = await res.json();
+
+    if(!product){
+        notFound();
+    }
+
     const {nameBn, categoryNameBn} = product;
 
     return (

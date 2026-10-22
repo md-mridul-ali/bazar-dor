@@ -1,6 +1,7 @@
 import CategoryProductList from "@/components/allProducts/CategoryProductList";
 import { IProduct } from "@/types/productsTypes";
 import { cacheLife } from "next/cache";
+import { notFound } from "next/navigation";
 
 interface ICategoryDetails {
   params: Promise<{ category: string }>;
@@ -17,11 +18,13 @@ const CategoryWisePage = async ({ params }: ICategoryDetails) => {
     `https://openapi.programming-hero.com/api/bazardor/products?category=${category}`
   );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
   const categoriesData: IProduct[] = await res.json();
+
+   if(!categoriesData){
+          notFound();
+      }
+
+  
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
