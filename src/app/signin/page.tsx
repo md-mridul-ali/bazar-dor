@@ -3,6 +3,7 @@ import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import googleIcon from "../../assets/google-icon.png";
+import githubIcon from "../../assets/github-icon.png";
 import Image from "next/image";
 
 const SignInPage = () => {
@@ -21,27 +22,47 @@ const SignInPage = () => {
     });
 
     if (data) {
-      toast.success("Successfully Signin!");
+      toast.success("Email sign-in Successful!");
+      return;
     }
     if (error) {
-      toast.error(error.message as string);
+      toast.error((error.message as string) || "Email sign-in Failed");
+      return;
     }
   };
 
   const handleSigninGoogle = async () => {
-  const { data, error } = await authClient.signIn.social({
-    provider: "google",
-    callbackURL: "/",
-  });
+    const { data, error } = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
 
-  if (error) {
-    console.error("Google sign-in error:", error);
-    toast.error(error.message || "Google sign-in failed");
-    return;
-  }
+    if (data) {
+      toast.success("Google sign-in Successful");
+      return;
+    }
 
-  console.log("Google sign-in response:", data);
- };
+    if (error) {
+      toast.error(error.message || "Google sign-in failed");
+      return;
+    }
+  };
+
+  const handleSigninGithub = async () => {
+    const { data, error } = await authClient.signIn.social({
+      provider: "github",
+    });
+
+    if (data) {
+      toast.success("GitHub sign-in Successful");
+      return;
+    }
+
+    if (error) {
+      toast.error(error.message || "GitHub sign-in failed");
+      return;
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto flex flex-col items-center justify-center mt-5">
@@ -91,9 +112,10 @@ const SignInPage = () => {
         <div>
           <div className="divider">অথবা</div>
         </div>
-
       </form>
-      <button onClick={handleSigninGoogle} className="btn">
+
+      <div className="flex ">
+        <button onClick={handleSigninGoogle} className="btn">
           <Image
             src={googleIcon}
             alt="google icon"
@@ -102,6 +124,18 @@ const SignInPage = () => {
           ></Image>
           Google দিয়ে চালিয়ে যান
         </button>
+
+        <button onClick={handleSigninGithub} className="btn">
+          <Image
+            src={githubIcon}
+            alt="google icon"
+            height={20}
+            width={20}
+          ></Image>
+          GitHub দিয়ে চালিয়ে যান
+        </button>
+      </div>
+
       <Link className="text-gray-400 mt-2" href="/">
         ← হোম পেজে ফিরে যান
       </Link>
