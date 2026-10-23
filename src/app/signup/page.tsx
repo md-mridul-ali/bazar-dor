@@ -1,175 +1,6 @@
-// "use client";
-// import { authClient } from "@/lib/auth-client";
-// import Link from "next/link";
-// import { redirect } from "next/navigation";
-// import toast from "react-hot-toast";
-// import Image from "next/image";
-// import googleIcon from "../../assets/google-icon.png";
-// import githubIcon from "../../assets/github-icon.png";
-
-// const SignUpPage = () => {
-//   const handleSubmit = async (e: React.SubmitEvent<HTMLElement>) => {
-//     e.preventDefault();
-
-//     const formData = new FormData(e.target);
-//     const userData = Object.fromEntries(formData.entries()) as {
-//       name: string;
-//       email: string;
-//       password: string;
-//     };
-
-//     const { data, error } = await authClient.signUp.email({
-//       ...userData,
-//     });
-//     if (data) {
-//       toast.success("Email sign-up Successful!")
-//       redirect("/");
-//     }
-//     if (error) {
-//       toast.error(error.message || "Email sign-up failed");
-//       return;
-//     }
-//   };
-
-//   const handleSignupGoogle = async () => {
-//     const { data, error } = await authClient.signIn.social({
-//       provider: "google",
-//       callbackURL: "/",
-//     });
-
-//     if (error) {
-//       toast.error(error.message || "Google sign-up failed");
-//       return;
-//     }
-
-//   };
-
-//   const handleSignupGithub = async () => {
-//     const { data, error } = await authClient.signIn.social({
-//       provider: "github",
-//     });
-
-//     if (error) {
-//       toast.error(error.message || "GitHub sign-in failed");
-//       return;
-//     }
-
-//   };
-
-//   return (
-//     <div className="max-w-7xl mx-auto flex flex-col items-center justify-center mt-5">
-//       <h2 className="text-2xl font-bold mb-2">অ্যাকাউন্ট তৈরি করুন</h2>
-//       <p className="text-gray-400 mb-5">
-//         বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
-//       </p>
-//       <form
-//         onSubmit={handleSubmit}
-//         className="fieldset bg-base-200 border-base-300 rounded-xl w-xs border p-4"
-//       >
-//         <fieldset className="fieldset">
-//           <label className="label">নাম</label>
-//           <input
-//             type="text"
-//             name="name"
-//             className="input validator"
-//             placeholder="যেমন: রহিম উদ্দিন"
-//             required
-//           />
-//           <p className="validator-hint hidden">Required</p>
-//         </fieldset>
-
-//         <fieldset className="fieldset">
-//           <label className="label">ইমেইল</label>
-//           <input
-//             type="email"
-//             name="email"
-//             className="input validator"
-//             placeholder="you@example.com"
-//             required
-//           />
-//           <p className="validator-hint hidden">Required</p>
-//         </fieldset>
-
-//         <fieldset className="fieldset">
-//           <label className="label">Image</label>
-//           <input
-//             type="url"
-//             name="image"
-//             className="input validator"
-//             placeholder="Image"
-//             required
-//           />
-//           <p className="validator-hint hidden">Required</p>
-//         </fieldset>
-
-//         <label className="fieldset">
-//           <span className="label">পাসওয়ার্ড</span>
-//           <input
-//             type="password"
-//             name="password"
-//             className="input validator"
-//             placeholder="কমপক্ষে ৮ অক্ষর"
-//             required
-//           />
-//           <span className="validator-hint hidden">Required</span>
-//         </label>
-
-//         <button
-//           className="btn bg-green-600 rounded-xl text-white mt-4"
-//           type="submit"
-//         >
-//           অ্যাকাউন্ট তৈরি করুন
-//         </button>
-//         <button className="btn mt-1 rounded-xl hover:bg-green-100" type="reset">
-//           Reset
-//         </button>
-
-//         <div>
-//           <div className="divider">অথবা</div>
-//         </div>
-
-//       </form>
- 
-//         <div className="flex">
-//           <button onClick={handleSignupGoogle} className="btn">
-//             <Image
-//               src={googleIcon}
-//               alt="google icon"
-//               height={20}
-//               width={20}
-//             ></Image>
-//             Google দিয়ে চালিয়ে যান
-//           </button>
-
-//           <button onClick={handleSignupGithub} className="btn">
-//             <Image
-//               src={githubIcon}
-//               alt="google icon"
-//               height={20}
-//               width={20}
-//             ></Image>
-//             GitHub দিয়ে চালিয়ে যান
-//           </button>
-//         </div>
-
-//       <Link className="text-gray-400 mt-2" href="/">
-//         ← হোম পেজে ফিরে যান
-//       </Link>
-//     </div>
-//   );
-// };
-
-// export default SignUpPage;
-
-
-
-
-
-
-
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -187,6 +18,26 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  // Reset social loading if the user returns from a cancelled OAuth flow.
+  useEffect(() => {
+    const resetSocialLoading = () => {
+      if (document.visibilityState === "visible") {
+        setGoogleLoading(false);
+        setGithubLoading(false);
+      }
+    };
+
+    window.addEventListener("pageshow", resetSocialLoading);
+    window.addEventListener("focus", resetSocialLoading);
+    document.addEventListener("visibilitychange", resetSocialLoading);
+
+    return () => {
+      window.removeEventListener("pageshow", resetSocialLoading);
+      window.removeEventListener("focus", resetSocialLoading);
+      document.removeEventListener("visibilitychange", resetSocialLoading);
+    };
+  }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -279,10 +130,13 @@ const SignUpPage = () => {
   const handleSocialSignup = async (
     provider: "google" | "github"
   ) => {
-    const setSocialLoading =
-      provider === "google" ? setGoogleLoading : setGithubLoading;
+    if (loading || googleLoading || githubLoading) return;
 
-    setSocialLoading(true);
+    if (provider === "google") {
+      setGoogleLoading(true);
+    } else {
+      setGithubLoading(true);
+    }
 
     try {
       const { error } = await authClient.signIn.social({
@@ -292,24 +146,30 @@ const SignUpPage = () => {
 
       if (error) {
         toast.error(error.message || "সাইন ইন করা যায়নি");
-        setSocialLoading(false);
+
+        setGoogleLoading(false);
+        setGithubLoading(false);
       }
+
       // On success, Better Auth normally redirects to the provider.
+      // Keep the loading indicator active during the redirect.
     } catch {
       toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-      setSocialLoading(false);
+
+      setGoogleLoading(false);
+      setGithubLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-[#f0f5f0] px-4 py-8 sm:py-10 flex flex-col items-center justify-center">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#f0f5f0] px-4 py-8 sm:py-10">
       {/* Page heading */}
       <div className="mb-6 text-center">
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#26332b] mb-2">
+        <h1 className="mb-2 text-2xl font-bold text-[#26332b] sm:text-3xl">
           অ্যাকাউন্ট তৈরি করুন
         </h1>
 
-        <p className="text-sm sm:text-base text-gray-500">
+        <p className="text-sm text-gray-500 sm:text-base">
           বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
         </p>
       </div>
@@ -358,7 +218,7 @@ const SignUpPage = () => {
             />
           </div>
 
-          {/* Optional image URL */}
+          {/* Optional profile image URL */}
           <div className="form-control w-full">
             <label htmlFor="image" className="label pb-2">
               <span className="label-text font-medium text-gray-800">
@@ -449,7 +309,7 @@ const SignUpPage = () => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || googleLoading || githubLoading}
             className="btn mt-2 w-full rounded-xl border-none bg-green-600 text-white shadow-md hover:bg-green-700 disabled:bg-green-400"
           >
             {loading ? (
@@ -468,6 +328,7 @@ const SignUpPage = () => {
 
         {/* Social sign-up */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {/* Google */}
           <button
             type="button"
             onClick={() => handleSocialSignup("google")}
@@ -479,14 +340,16 @@ const SignUpPage = () => {
             ) : (
               <Image
                 src={googleIcon}
-                alt=""
+                alt="Google"
                 width={18}
                 height={18}
               />
             )}
+
             <span>Google দিয়ে চালিয়ে যান</span>
           </button>
 
+          {/* GitHub */}
           <button
             type="button"
             onClick={() => handleSocialSignup("github")}
@@ -498,16 +361,17 @@ const SignUpPage = () => {
             ) : (
               <Image
                 src={githubIcon}
-                alt=""
+                alt="GitHub"
                 width={18}
                 height={18}
               />
             )}
+
             <span>GitHub দিয়ে চালিয়ে যান</span>
           </button>
         </div>
 
-        {/* Sign in link */}
+        {/* Sign-in link */}
         <p className="mt-4 text-center text-sm text-gray-600">
           অ্যাকাউন্ট আছে?{" "}
           <Link
