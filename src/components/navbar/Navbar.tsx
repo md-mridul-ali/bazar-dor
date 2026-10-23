@@ -1,11 +1,14 @@
+"use client";
 import { ICategory } from "@/types/categoryTypes";
 import logo from "../../assets/logo-icon.png";
 import Image from "next/image";
 import Link from "next/link";
 import DatePage from "./DatePage";
 import UserInfo from "../userInfo/UserInfo";
+import { usePathname } from "next/navigation";
 
 const Navbar = ({ categories }: { categories: ICategory[] }) => {
+  const pathname = usePathname();
 
   return (
     <div className="bg-base-100 shadow-sm">
@@ -32,20 +35,47 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             </div>
 
             {/* Mobile Categories */}
-            <ul
+            {/* <ul
               tabIndex={-1}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
             >
               {categories?.map((category) => (
                 <li key={category.id}>
-                  {/* className={` ${pathName === '/categories/${category.slug}' ? 'px-6 rounded-full bg-[#18230F] text-[#C2F800]' : ''}`} */}
-                  <Link href={`/categories/${category.slug}`}>
+                  <Link
+                    className="text-blue-500"
+                    href={`/categories/${category.slug}`}
+                  >
                     <span>{category.icon}</span>
                     {category.nameBn}
                   </Link>
                 </li>
               ))}
-              
+            </ul> */}
+
+            <ul
+              tabIndex={-1}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
+            >
+              {categories?.map((category) => {
+                const isActive = pathname === `/categories/${category.slug}`;
+
+                return (
+                  <li key={category.id}>
+                    <Link
+                      href={`/categories/${category.slug}`}
+                      className={`transition-colors duration-200 ${
+                        isActive
+                          ? "bg-green-600 text-white font-semibold"
+                          : "text-base-content hover:bg-green-100 hover:text-green-700"
+                      }`}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      <span>{category.icon}</span>
+                      {category.nameBn}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -57,14 +87,14 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             <div>
               <p className="text-xl">বাজার দর</p>
               <div className="text-xs text-neutral-500">
-                  <DatePage />
+                <DatePage />
               </div>
             </div>
           </Link>
         </div>
 
         {/* Desktop Categories */}
-        <div className="navbar-center hidden lg:flex">
+        {/* <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
            
             {categories?.map((category) => (
@@ -77,11 +107,36 @@ const Navbar = ({ categories }: { categories: ICategory[] }) => {
             ))}
 
           </ul>
+        </div> */}
+
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+            {categories?.map((category) => {
+              const isActive = pathname === `/categories/${category.slug}`;
+
+              return (
+                <li key={category.id}>
+                  <Link
+                    href={`/categories/${category.slug}`}
+                    className={`transition-colors duration-200 ${
+                      isActive
+                        ? "bg-green-600 text-white font-semibold rounded-lg"
+                        : "hover:bg-green-100 hover:text-green-700"
+                    }`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    <span>{category.icon}</span>
+                    {category.nameBn}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
         {/* Authentication Links */}
         <div className="navbar-end gap-2">
-           <UserInfo></UserInfo>
+          <UserInfo></UserInfo>
         </div>
       </div>
     </div>
